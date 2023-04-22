@@ -5,30 +5,13 @@ import { TweetsList } from './App.styled';
 
 export const App = () => {
   const [userStatistics, setUserStatistic] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const getFunc = async () => {
-    setLoading(true);
-    try {
-      const data = await getUsersBase();
-
-      setUserStatistic(data);
-    } catch (er) {
-      setError(er);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    getFunc();
-  });
+    getUsersBase().then(results => setUserStatistic([...results]));
+  }, []);
 
   return (
     <div>
-      {loading && <div>Await plz</div>}
       <TweetsList>
         {userStatistics.map(user => {
           return (
